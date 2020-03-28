@@ -8,7 +8,8 @@
   
   *The full paper accompanying this report can be found [here:](https://www.thelancet.com/journals/lanpub/article/PIIS2468-2667(20)30073-6/fulltext#sec1)*
 
-
+### The original code is written in R. In this repo I am going to convert the code to Matlab
+  
 ## Aim
 
 To assess the impact of a range of control measures that reduce social mixing on data from the COVID-19 outbreak in Wuhan, China. Using the best estimates for the epidemiological parameters, we simulate the effects of the control measures using an age-structured, location-specific transmission model. The model uses data on contact patterns. Specifically, we adjust these patterns according to how they change under certain control measures. We then simulate our transmission model under these different scenarios and assess the impact.
