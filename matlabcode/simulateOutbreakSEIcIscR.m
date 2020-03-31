@@ -116,9 +116,9 @@ function output = simulateOutbreakSEIcIscR(R0t,rho=c(rep(0.4,4),rep(0.8,12)), R0
     % beta = getbeta(R0t = R0t[stepIndex],constraints = constraintsIntervention$base,gamma = gamma,p_age = pop$p_age)
 
     if time(stepIndex)  < tEndIntenseIntervention+0
-        lambda(stepIndex,:) = beta*C*I(stepIndex,:)'/N_age;
+        lambda(stepIndex,:) = beta*(C*Ic(stepIndex,:)'./N_age+ 0.25*Isc(stepIndex,:)'./N_age);
     else 
-        lambda(stepIndex,:) = beta_postfirstwave*C*I(stepIndex,:)'/N_age;
+        lambda(stepIndex,:) = beta_postfirstwave*C*(Ic(stepIndex,:)'./N_age + 0.25*Isc(stepIndex,:)'./N_age);
     end
     % lambda[stepIndex,] = as.numeric(beta)*(as.matrix(C)%*%as.matrix(I[stepIndex,]/N_age));
     % calculate the number of infections and recoveries between time t and t+dt
@@ -133,7 +133,7 @@ function output = simulateOutbreakSEIcIscR(R0t,rho=c(rep(0.4,4),rep(0.8,12)), R0
     S(stepIndex+1,:)   = S(stepIndex,:)-numStoE;
     E(stepIndex+1,:)   = E(stepIndex,:)+numStoE-numEtoIc-numEtoIsc;
     Ic(stepIndex+1,:)  = Ic(stepIndex,:)+numEtoIc-numIctoR;
-    Isc(stepIndex+1,:) = Ic(stepIndex,:)+numEtoIsc-numIsctoR;
+    Isc(stepIndex+1,:) = Isc(stepIndex,:)+numEtoIsc-numIsctoR;
     R(stepIndex+1,:)   = R(stepIndex,:)+numIctoR+numIsctoR;
     
     incidence(stepIndex+1,:) = numEtoIc/dt;

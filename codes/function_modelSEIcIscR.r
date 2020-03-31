@@ -356,7 +356,7 @@ simulateOutbreakSEIcIscR = function(R0t,rho=c(rep(0.4,4),rep(0.8,12)), R0tpostou
     
     # beta = getbeta(R0t = R0t[stepIndex],constraints = constraintsIntervention$base,gamma = gamma,p_age = pop$p_age)
     if(time[stepIndex] < tEndIntenseIntervention+0) lambda[stepIndex,] = as.numeric(beta)*(as.matrix(C)%*%as.matrix(Ic[stepIndex,]/N_age) + 0.25*as.matrix(Isc[stepIndex,]/N_age));
-    if(time[stepIndex] >= tEndIntenseIntervention+0)lambda[stepIndex,] = as.numeric(beta_postfirstwave)*(as.matrix(C)%*%as.matrix(Ic[stepIndex,]/N_age) + 0.25*as.matrix(Isc[stepIndex,]/N_age));
+    if(time[stepIndex] >= tEndIntenseIntervention+0)lambda[stepIndex,] = as.numeric(beta_postfirstwave)*(as.matrix(C)%*%(as.matrix(Ic[stepIndex,]/N_age) + 0.25*as.matrix(Isc[stepIndex,]/N_age)));
     # calculate the number of infections and recoveries between time t and t+dt
     
     numStoE   = lambda[stepIndex,]*S[stepIndex,]*dt;                  # S to E
@@ -369,7 +369,7 @@ simulateOutbreakSEIcIscR = function(R0t,rho=c(rep(0.4,4),rep(0.8,12)), R0tpostou
     S[stepIndex+1,]   = S[stepIndex,]-numStoE;
     E[stepIndex+1,]   = E[stepIndex,]+numStoE-numEtoIc-numEtoIsc;
     Ic[stepIndex+1,]  = Ic[stepIndex,]+numEtoIc-numIctoR;
-    Isc[stepIndex+1,] = Ic[stepIndex,]+numEtoIsc-numIsctoR;
+    Isc[stepIndex+1,] = Isc[stepIndex,]+numEtoIsc-numIsctoR;
     R[stepIndex+1,]   = R[stepIndex,]+numIctoR+numIsctoR;
     
     incidence[stepIndex+1,] = numEtoIc/dt;
@@ -388,7 +388,7 @@ simulateOutbreakSEIcIscR = function(R0t,rho=c(rep(0.4,4),rep(0.8,12)), R0tpostou
 }
 
 
-CHECKMODEL  = FALSE
+CHECKMODEL  = TRUE
 
 if(CHECKMODEL)
 {
@@ -425,10 +425,12 @@ if(CHECKMODEL)
     # epi_march[[sim]] = simulateOutbreakSEIcIscR(R0t =R0est, dateEndIntenseIntervention = as.Date('2020-03-01'),durInf = 14)
     # epi_april[[sim]] = simulateOutbreakSEIcIscR(R0t =R0est, dateEndIntenseIntervention = as.Date('2020-04-01'),durInf = 14)
   }
+  pdf(file='plot1.pdf',width=10,height=10)
   par(mfrow=c(2,1))
   
   # incidence over time
   agegp =3
+
   plot(epi_doNothing[[1]]$time, epi_doNothing[[1]]$incidence[,agegp], type='l', lwd=2,
        main=paste0("Incidence for age [",(agegp-1)*5,',',agegp*5,')'),
        xlab="Time(days)", ylab="Daily no. of infections");
@@ -445,7 +447,7 @@ if(CHECKMODEL)
   lines(epi_april[[1]]$time, (epi_april[[1]]$N_age[agegp]-epi_april[[1]]$S[,agegp])/epi_april[[1]]$N_age[agegp],lwd=2,col='tomato',lty='dashed')
   legend(0.25, 0.98, legend=c("Do Nothing", "Base","Lockdown->March","Lockdown->April"),
          col=c("black", "grey40","steelblue",'tomato'), bty='n',lty=c(1,1,1,1),lwd=c(2,2,2,2), cex=0.7)
-
+  
   # incidence over time
   agegp =13
   plot(epi_doNothing[[1]]$time, epi_doNothing[[1]]$incidence[,agegp], type='l', lwd=2,
@@ -464,5 +466,5 @@ if(CHECKMODEL)
   lines(epi_april[[1]]$time, (epi_april[[1]]$N_age[agegp]-epi_april[[1]]$S[,agegp])/epi_april[[1]]$N_age[agegp],lwd=2,col='tomato',lty='dashed')
   legend(0.25, 0.98, legend=c("Do Nothing", "Base","Lockdown->March","Lockdown->April"),
          col=c("black", "grey40","steelblue",'tomato'), bty='n',lty=c(1,1,1,1),lwd=c(2,2,2,2), cex=0.7)
-  
+  dev.off()
 }
