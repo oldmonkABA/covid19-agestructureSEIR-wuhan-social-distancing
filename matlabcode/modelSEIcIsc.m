@@ -85,7 +85,7 @@ if CHECKMODEL
 %   par(mfrow=c(2,1))
 %   
 %   # incidence over time
-  agegp =13;
+  agegp =3;
   figure(1);
   subplot(2,1,1);  
   plot(epi_doNothing(1).time, epi_doNothing(1).incidence(:,agegp),'b');
