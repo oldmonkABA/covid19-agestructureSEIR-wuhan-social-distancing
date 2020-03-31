@@ -88,53 +88,53 @@ if CHECKMODEL
   agegp =3;
   figure(1);
   subplot(2,1,1);  
-  plot(epi_doNothing(1).time, epi_doNothing(1).incidence(:,agegp),'b');
+  plot(epi_doNothing(1).time, epi_doNothing(1).incidence(:,agegp),'linewidth',1,'Color','k');
   title("Incidence for age 10-15");
   xlabel("Time(days)");
   ylabel("Daily no. of infections");
   hold on;
-  plot(epi_base(1).time,epi_base(1).incidence(:,agegp),'k');
-  plot(epi_march(1).time,epi_march(1).incidence(:,agegp),'r');
-  plot(epi_april(1).time,epi_april(1).incidence(:,agegp),'g');
+  plot(epi_base(1).time,epi_base(1).incidence(:,agegp),'linewidth',1,'Color',[0 0 0]+0.05*10);
+  plot(epi_march(1).time,epi_march(1).incidence(:,agegp),'linewidth',1,'Color','b');
+  plot(epi_april(1).time,epi_april(1).incidence(:,agegp),'linewidth',1,'Color','r');
    legend("Do Nothing", "Base","Lockdown->March","Lockdown->April");
 
   subplot(2,1,2);
   % cumulative incidence over time
-  plot(epi_doNothing(1).time, (epi_doNothing(1).N_age(agegp)-epi_doNothing(1).S(:,agegp))./epi_doNothing(1).N_age(agegp),'b'); 
+  plot(epi_doNothing(1).time, (epi_doNothing(1).N_age(agegp)-epi_doNothing(1).S(:,agegp))./epi_doNothing(1).N_age(agegp),'linewidth',1,'Color','k'); 
   title("Cum incidence for age 10-15");
   xlabel("Time(days)");
   ylabel("Cum incidence");
   ylim = [0,1];
   hold;
-plot(epi_base(1).time, (epi_base(1).N_age(agegp)-epi_base(1).S(:,agegp))./epi_base(1).N_age(agegp),'k');
-plot(epi_march(1).time, (epi_march(1).N_age(agegp)-epi_march(1).S(:,agegp))./epi_march(1).N_age(agegp),'r');
-plot(epi_april(1).time, (epi_april(1).N_age(agegp)-epi_april(1).S(:,agegp))./epi_april(1).N_age(agegp),'g');
+plot(epi_base(1).time, (epi_base(1).N_age(agegp)-epi_base(1).S(:,agegp))./epi_base(1).N_age(agegp),'linewidth',1,'Color',[0 0 0]+0.05*10);
+plot(epi_march(1).time, (epi_march(1).N_age(agegp)-epi_march(1).S(:,agegp))./epi_march(1).N_age(agegp),'linewidth',1,'Color','b');
+plot(epi_april(1).time, (epi_april(1).N_age(agegp)-epi_april(1).S(:,agegp))./epi_april(1).N_age(agegp),'linewidth',1,'Color','r');
   legend("Do Nothing", "Base","Lockdown->March","Lockdown->April");
          
   agegp =13;
   figure(2);
   subplot(2,1,1);  
-  plot(epi_doNothing(1).time, epi_doNothing(1).incidence(:,agegp),'b');
+  plot(epi_doNothing(1).time, epi_doNothing(1).incidence(:,agegp),'linewidth',1,'Color','k');
   title("Incidence for age 60-65");
   xlabel("Time(days)");
-  ylabel("Daily no of infections");
+  ylabel("Daily no. of infections");
   hold on;
-  plot(epi_base(1).time,epi_base(1).incidence(:,agegp),'k');
-  plot(epi_march(1).time,epi_march(1).incidence(:,agegp),'r');
-  plot(epi_april(1).time,epi_april(1).incidence(:,agegp),'g');
+  plot(epi_base(1).time,epi_base(1).incidence(:,agegp),'linewidth',1,'Color',[0 0 0]+0.05*10);
+  plot(epi_march(1).time,epi_march(1).incidence(:,agegp),'linewidth',1,'Color','b');
+  plot(epi_april(1).time,epi_april(1).incidence(:,agegp),'linewidth',1,'Color','r');
    legend("Do Nothing", "Base","Lockdown->March","Lockdown->April");
 
   subplot(2,1,2);
   % cumulative incidence over time
-  plot(epi_doNothing(1).time, (epi_doNothing(1).N_age(agegp)-epi_doNothing(1).S(:,agegp))./epi_doNothing(1).N_age(agegp),'b'); 
-  title("Cum incidence for age 60-65"),
-  xlabel("Time(days)")
-  ylabel("Cum incidence")
+  plot(epi_doNothing(1).time, (epi_doNothing(1).N_age(agegp)-epi_doNothing(1).S(:,agegp))./epi_doNothing(1).N_age(agegp),'linewidth',1,'Color','k'); 
+  title("Cum incidence for age 60-65");
+  xlabel("Time(days)");
+  ylabel("Cum incidence");
   ylim = [0,1];
   hold;
-plot(epi_base(1).time, (epi_base(1).N_age(agegp)-epi_base(1).S(:,agegp))./epi_base(1).N_age(agegp),'k');
-plot(epi_march(1).time, (epi_march(1).N_age(agegp)-epi_march(1).S(:,agegp))./epi_march(1).N_age(agegp),'r');
-plot(epi_april(1).time, (epi_april(1).N_age(agegp)-epi_april(1).S(:,agegp))./epi_april(1).N_age(agegp),'g');
+plot(epi_base(1).time, (epi_base(1).N_age(agegp)-epi_base(1).S(:,agegp))./epi_base(1).N_age(agegp),'linewidth',1,'Color',[0 0 0]+0.05*10);
+plot(epi_march(1).time, (epi_march(1).N_age(agegp)-epi_march(1).S(:,agegp))./epi_march(1).N_age(agegp),'linewidth',1,'Color','b');
+plot(epi_april(1).time, (epi_april(1).N_age(agegp)-epi_april(1).S(:,agegp))./epi_april(1).N_age(agegp),'linewidth',1,'Color','r');
   legend("Do Nothing", "Base","Lockdown->March","Lockdown->April");
 
 end
