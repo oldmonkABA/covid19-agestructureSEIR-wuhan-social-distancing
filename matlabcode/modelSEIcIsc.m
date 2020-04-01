@@ -19,7 +19,7 @@ if CHECKMODEL
   R0est = 2.2;
   % R0est = sample(x = r0posterior,size = 100)
   
-  nsim = 1;
+  nsim = 2;
   %epi_doNothing = vector('list',nsim)
   %epi_base = vector('list',nsim)
   %epi_march = vector('list',nsim)
