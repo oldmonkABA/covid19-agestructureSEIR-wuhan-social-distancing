@@ -6,11 +6,12 @@ function results =summariseSimulations_mid(CI,SIMS)
       temp1=[temp1 epi];
   end
   lastrow = temp1(end,:);
-  [m,i] = min(abs(lastrow-quantile(lastwrow,0.5)));
-  [m,j] = min(abs(lastrow-quantile(lastwrow,0.25)));
-  [m,k] = min(abs(lastrow-quantile(lastwrow,0.75)));
- 
-  S = [temp1(:,i),temp1(:,j),temp1(:,k),SIMS(1).time];
+  [m,i] = min(abs(lastrow-quantile(lastrow,0.5)));
+  [m,j] = min(abs(lastrow-quantile(lastrow,0.25)));
+  [m,k] = min(abs(lastrow-quantile(lastrow,0.75)));
+% size(temp1(:,i))
+%size(SIMS(1).time)
+  S = [temp1(:,i),temp1(:,j),temp1(:,k),SIMS(1).time'];
   S_age=struct;
   S_age.med=SIMS(i).S;
   S_age.lci=SIMS(k).S;

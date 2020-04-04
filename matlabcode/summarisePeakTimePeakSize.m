@@ -6,7 +6,7 @@ temp1=[];
       temp1=[temp1 epi];
   end
   [peaksize, ind] = max(temp1,[],1);
-  peaksize = time(ind);
+  peaktime = time(ind);
   results = struct;
   results.time=time;
   results.peaktime=peaktime;

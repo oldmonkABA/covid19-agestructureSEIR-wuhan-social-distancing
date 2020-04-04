@@ -1,8 +1,8 @@
-function output = simulateOutbreakSEIcIscR(R0t,rho=c(rep(0.4,4),rep(0.8,12)), R0tpostoutbreak = 1.5,dateEndIntenseIntervention, #date we begin relaxing intense intervention 
-                                    pWorkOpen = c(0.1,0.25,0.5,0.9), # pWorkOpen: proportion of the work force that is working (will be time-varying)
-                                    dateStartSchoolClosure = as.Date('2020-01-15') , # cause winter term break 
-                                    dateStartIntenseIntervention = as.Date('2020-01-23') , #Intense intervention: starts at Wuhan Lockdown
-                                    dateStart = as.Date('2019-11-01'),POP = wuhanpop,numWeekStagger=c(2,4,6),pInfected=0.0002,durInf = 7,contacts_china=contacts)
+function output = simulateOutbreakSEIcIscR(R0t,rho, R0tpostoutbreak,dateEndIntenseIntervention,... #date we begin relaxing intense intervention 
+                                    pWorkOpen,... # pWorkOpen: proportion of the work force that is working (will be time-varying)
+                                    dateStartSchoolClosure,... # cause winter term break 
+                                    dateStartIntenseIntervention ,... #Intense intervention: starts at Wuhan Lockdown
+                                    dateStart,POP ,numWeekStagger,pInfected,durInf,contacts_china)
 
   % debug dateStartIntenseIntervention = as.Date('2020-01-23')  
   % debug dateEndIntenseIntervention = as.Date('2020-03-01')
@@ -35,7 +35,7 @@ function output = simulateOutbreakSEIcIscR(R0t,rho=c(rep(0.4,4),rep(0.8,12)), R0
   % Declare the state variables and related variables:
   % The values of these variables change over time
   [S,E,Isc,Ic,R] = deal(zeros(numSteps,length(p_age)));
-  [lambda, incidence,reported, cumulativeIncidence] = deal(zeros(numSteps,length(p_age)));
+  [lambda, incidence,subclinical, cumulativeIncidence] = deal(zeros(numSteps,length(p_age)));
   time = zeros(1,numSteps);
   
   % Initialise the time-dependent variables, i.e. setting the values of the variables at time 0
@@ -43,7 +43,7 @@ function output = simulateOutbreakSEIcIscR(R0t,rho=c(rep(0.4,4),rep(0.8,12)), R0
   Ic(1,:) =  pInfected*sum(N_age)/16;%rpois(length(N_age),lambda = pInfected*sum(N_age)/16)  % 100 # Assign 100 infected person in each age group (TODO RELAX?)
   Isc(1,:)=0;
   R(1,:) = 0 ;
-  S(1,:) = N_age-E(1,:)-Ic(1,:)-Isc(1,:)-R(1,:);
+  S(1,:) = N_age'-E(1,:)-Ic(1,:)-Isc(1,:)-R(1,:);
   incidence(1,:) = 0;
   subclinical(1,:) = 0;
   time(1) = 0;
@@ -122,12 +122,13 @@ function output = simulateOutbreakSEIcIscR(R0t,rho=c(rep(0.4,4),rep(0.8,12)), R0
     end
     % lambda[stepIndex,] = as.numeric(beta)*(as.matrix(C)%*%as.matrix(I[stepIndex,]/N_age));
     % calculate the number of infections and recoveries between time t and t+dt
-    
-    numStoE   = lambda(stepIndex,:).*S(stepIndex,:)*dt;                  # S to E
-    numEtoIc  = alpha*rho*E(stepIndex,:)*dt;                          # E to Ic
-    numEtoIsc = alpha*(1-rho)*E(stepIndex,:)*dt;                         # E to Isc
-    numIctoR  = gamma*Ic(stepIndex,:)*dt;                              # Ic to R
-    numIsctoR = gamma*Isc(stepIndex,:)*dt;                          # Isc to R
+    size(rho)
+size(E)
+    numStoE   = lambda(stepIndex,:).*S(stepIndex,:)*dt;                  % S to E
+    numEtoIc  = alpha*rho*E(stepIndex,:)'*dt;                          % E to Ic
+    numEtoIsc = alpha*(1-rho).*E(stepIndex,:)*dt;                         % E to Isc
+    numIctoR  = gamma*Ic(stepIndex,:)*dt;                              % Ic to R
+    numIsctoR = gamma*Isc(stepIndex,:)*dt;                          % Isc to R
     
     % Difference equations 
     S(stepIndex+1,:)   = S(stepIndex,:)-numStoE;
@@ -137,7 +138,10 @@ function output = simulateOutbreakSEIcIscR(R0t,rho=c(rep(0.4,4),rep(0.8,12)), R0
     R(stepIndex+1,:)   = R(stepIndex,:)+numIctoR+numIsctoR;
     
     incidence(stepIndex+1,:) = numEtoIc/dt;
-    subclinical(stepIndex+1,:) = numEtoIsc/dt;
+
+%size(subclinical)
+%size(numEtoIsc)
+    subclinical(stepIndex+1,:) = numEtoIsc'/dt;
     time(stepIndex+1) = time(stepIndex)+dt;
 
     
